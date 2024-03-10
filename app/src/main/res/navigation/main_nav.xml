@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.sen.synk.ui.login.LoginFragment"
+        android:label="login"
+        tools:layout="@layout/fragment_login"
+        app:defaultNavHost="true">
+        <action
+            android:id="@+id/openAlbum"
+            app:destination="@id/albumFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/albumFragment"
+        android:name="com.sen.synk.ui.album.AlbumFragment"
+        android:label="album"
+        tools:layout="@layout/fragment_album"
+        app:defaultNavHost="true">
+    </fragment>
+
+</navigation>
