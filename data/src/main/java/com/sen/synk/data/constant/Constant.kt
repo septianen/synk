@@ -7,5 +7,5 @@ object Constant {
 }
 
 object ARGS {
-    const val ACCOUNT = ""
+    const val ACCOUNT = "account"
 }

@@ -32,7 +32,7 @@ class UserRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items?.get(position)
 
-        holder.tvUser.text = item?.fullName
+        holder.tvUser.text = item?.username
         holder.ivEdit.setOnClickListener {view ->
             item?.let {
                 listener.onEditClick(

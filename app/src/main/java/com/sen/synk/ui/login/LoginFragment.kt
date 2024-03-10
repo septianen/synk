@@ -76,13 +76,13 @@ class LoginFragment : Fragment() {
         password = binding.etPassword.text.toString()
         passwordConfirmation = binding.etConfirmPassword.text.toString()
 
-        val userType = if (binding.swAdmin.isSelected) 1 else 2
+        val role = if (binding.swAdmin.isSelected) "Admin" else "User"
 
         account = Account(
             username = username,
             password = password,
             confirmPassword = passwordConfirmation,
-            userType = userType
+            role = role
         )
     }
 

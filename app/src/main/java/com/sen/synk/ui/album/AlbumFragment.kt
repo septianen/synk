@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sen.synk.databinding.FragmentAlbumBinding
 import com.sen.synk.viewmodel.album.AlbumViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
+@AndroidEntryPoint
 class AlbumFragment : Fragment() {
 
     private lateinit var binding: FragmentAlbumBinding

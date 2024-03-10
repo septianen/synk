@@ -43,12 +43,12 @@ class AccountUseCase (
         if (findAccount(username = account.username) != null)
             return LoginStatus.FAILED
 
-        addAccount(account)
+        upsertAccount(account)
         return LoginStatus.SUCCESS
     }
 
-    fun addAccount(account: Account) =
-        accounDao.insertAccount(account)
+    fun upsertAccount(account: Account) =
+        accounDao.upsertAccount(account)
 
     fun findAccount(username: String?): Account? {
 

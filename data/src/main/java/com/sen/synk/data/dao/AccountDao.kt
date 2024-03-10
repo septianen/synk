@@ -2,6 +2,7 @@ package com.sen.synk.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.sen.synk.data.constant.DB
 import com.sen.synk.data.model.Account
@@ -9,8 +10,8 @@ import com.sen.synk.data.model.Account
 @Dao
 interface AccountDao {
 
-    @Insert
-    fun insertAccount(account: Account)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun upsertAccount(account: Account)
 
     @Query("SELECT * FROM ${DB.Table.ACCOUNT} WHERE username = :username AND password = :password LIMIT 1")
     fun login(username: String?, password: String?): Account?

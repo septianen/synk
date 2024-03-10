@@ -9,9 +9,9 @@ import java.io.Serializable
 data class Account(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
-    var fullName: String? = null,
+    var email: String? = null,
     var password: String? = null,
     var confirmPassword: String? = null,
     var username: String? = null,
-    var userType: Int? = null
+    var role: String? = null
 ): Serializable
