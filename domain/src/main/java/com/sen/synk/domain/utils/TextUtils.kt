@@ -5,7 +5,6 @@ import com.sen.synk.data.constant.TextStatus
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-
 object TextUtils {
 
     fun validateUsername(username: String?): TextStatus {

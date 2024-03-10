@@ -15,6 +15,9 @@ interface AccountDao {
     @Query("SELECT * FROM ${DB.Table.ACCOUNT} WHERE username = :username AND password = :password LIMIT 1")
     fun login(username: String?, password: String?): Account?
 
+    @Query("SELECT * FROM ${DB.Table.ACCOUNT}")
+    fun getAllAccount(): List<Account>?
+
     @Query("SELECT * FROM ${DB.Table.ACCOUNT} WHERE username = :username LIMIT 1")
     fun getAccountByUsername(username: String): Account?
 

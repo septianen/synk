@@ -50,7 +50,7 @@ class SynkDbTest {
             userType = 2
         )
         accountDao.insertAccount(account)
-        val result = accountDao.getAccountByUsername(account.username)
+        val result = account.username?.let { accountDao.getAccountByUsername(it) }
         assertThat(result, equalTo(account))
     }
 
@@ -60,8 +60,8 @@ class SynkDbTest {
 
         insertAccount()
 
-        accountDao.deleteAccountByUsername(account.username)
-        val result = accountDao.getAccountByUsername(account.username)
+        account.username?.let { accountDao.deleteAccountByUsername(it) }
+        val result = account.username?.let { accountDao.getAccountByUsername(it) }
 
         assertThat(result, equalTo(null))
     }

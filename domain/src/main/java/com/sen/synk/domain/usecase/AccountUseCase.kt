@@ -5,9 +5,8 @@ import com.sen.synk.data.constant.TextStatus
 import com.sen.synk.data.dao.AccountDao
 import com.sen.synk.data.model.Account
 import com.sen.synk.domain.utils.TextUtils
-import javax.inject.Inject
 
-class LoginUseCase @Inject constructor(
+class AccountUseCase (
     private val accounDao: AccountDao
 ) {
 
@@ -54,5 +53,9 @@ class LoginUseCase @Inject constructor(
     fun findAccount(username: String?): Account? {
 
         return username?.let { accounDao.getAccountByUsername(it) }
+    }
+
+    fun getAccounts(): List<Account>? {
+        return accounDao.getAllAccount()
     }
 }

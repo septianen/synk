@@ -2,10 +2,13 @@ package com.sen.synk.di
 
 import android.content.Context
 import androidx.room.Room
+import com.sen.synk.data.RetrofitInstance
+import com.sen.synk.data.api.ApiService
 import com.sen.synk.data.db.AppDatabase
 import com.sen.synk.data.constant.DB
 import com.sen.synk.data.dao.AccountDao
-import com.sen.synk.domain.usecase.LoginUseCase
+import com.sen.synk.data.repository.AlbumRepository
+import com.sen.synk.domain.usecase.AccountUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,7 +37,15 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideLoginUseCase(accountDao: AccountDao): LoginUseCase {
-        return LoginUseCase(accountDao)
+    fun provideLoginUseCase(accountDao: AccountDao): AccountUseCase {
+        return AccountUseCase(accountDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAlbumRepository(@ApplicationContext appContext: Context): AlbumRepository {
+        return AlbumRepository(
+            RetrofitInstance.buildRetrofit(context = appContext).create(ApiService::class.java)
+        )
     }
 }

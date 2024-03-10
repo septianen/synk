@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/userFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -22,8 +22,37 @@
         android:id="@+id/albumFragment"
         android:name="com.sen.synk.ui.album.AlbumFragment"
         android:label="album"
-        tools:layout="@layout/fragment_album"
+        tools:layout="@layout/fragment_album">
+    </fragment>
+
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.sen.synk.ui.user.UserFragment"
+        android:label="user"
+        tools:layout="@layout/fragment_user"
         app:defaultNavHost="true">
+
+        <action
+            android:id="@+id/openEditUser"
+            app:destination="@id/editUser">
+
+            <argument
+                android:name="account"
+                app:argType="com.sen.synk.data.model.Account" />
+
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/editUser"
+        android:name="com.sen.synk.ui.edituser.EditUserFragment"
+        android:label="editUSer"
+        tools:layout="@layout/fragment_edit_user">
+
+        <argument
+        android:name="account"
+        app:argType="com.sen.synk.data.model.Account" />
+
     </fragment>
 
 </navigation>

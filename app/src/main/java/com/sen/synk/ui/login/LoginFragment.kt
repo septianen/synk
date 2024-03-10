@@ -7,19 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.sen.synk.R
 import com.sen.synk.data.constant.LoginStatus
 import com.sen.synk.data.model.Account
 import com.sen.synk.databinding.FragmentLoginBinding
-import com.sen.synk.ui.album.AlbumAdapter
 import com.sen.synk.viewmodel.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -99,7 +94,6 @@ class LoginFragment : Fragment() {
                 LoginStatus.USER_NOT_FOUND -> createSnackbar()
                 else -> {
                     showMessage("berhasil")
-                    viewModel.resetLiveData()
                     openHome()
                 }
             }
@@ -124,17 +118,17 @@ class LoginFragment : Fragment() {
 
             binding.swAdmin.visibility = View.GONE
             binding.tilConfirmPassword.visibility = View.GONE
-            binding.btnLogin.text = "Login"
-            binding.tvTitle.text = "Login"
-            binding.btnCreateNewAccount.text = "Create new account"
+            binding.btnLogin.text = requireContext().resources.getString(R.string.login)
+            binding.tvTitle.text = requireContext().resources.getString(R.string.login)
+            binding.btnCreateNewAccount.text = requireContext().resources.getString(R.string.create_new_account)
         } else {
             isSignUp = true
 
             binding.swAdmin.visibility = View.VISIBLE
             binding.tilConfirmPassword.visibility = View.VISIBLE
-            binding.btnLogin.text = "Sign Up"
-            binding.tvTitle.text = "sign up"
-            binding.btnCreateNewAccount.text = "Already have an account"
+            binding.btnLogin.text = requireContext().resources.getString(R.string.signup)
+            binding.tvTitle.text = requireContext().resources.getString(R.string.signup)
+            binding.btnCreateNewAccount.text = requireContext().resources.getString(R.string.already_have_account)
         }
     }
 

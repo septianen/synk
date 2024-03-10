@@ -63,8 +63,8 @@ dependencies {
 //    // To use Kotlin Symbol Processing (KSP)
 //    ksp("androidx.room:room-compiler:$roomVersion")
 
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+//    implementation("com.google.dagger:hilt-android:2.44")
+//    kapt("com.google.dagger:hilt-android-compiler:2.44")
 
 
     implementation("androidx.paging:paging-runtime-ktx:3.2.1")

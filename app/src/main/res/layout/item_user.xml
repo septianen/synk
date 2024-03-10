@@ -10,25 +10,25 @@
 
     <ImageView
         android:id="@+id/ivThumbnail"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_margin="16dp"
-        android:src="@color/onPrimaryContainer"
+        android:src="@drawable/ic_edit"
         android:contentDescription="@string/thumbnail"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        tools:text="Lorem ipsum dolor sit amet"
         android:textColor="@color/onPrimaryContainer"
-        app:layout_constraintBottom_toBottomOf="@+id/ivThumbnail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivThumbnail"
-        app:layout_constraintTop_toTopOf="@+id/ivThumbnail" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivThumbnail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Lorem ipsum dolor sit amet" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

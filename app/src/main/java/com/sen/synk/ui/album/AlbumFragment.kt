@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sen.synk.R
 import com.sen.synk.databinding.FragmentAlbumBinding
 import com.sen.synk.viewmodel.album.AlbumViewModel
 import kotlinx.coroutines.launch

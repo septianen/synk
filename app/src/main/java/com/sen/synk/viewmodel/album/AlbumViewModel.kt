@@ -11,16 +11,20 @@ import com.sen.synk.data.RetrofitInstance
 import com.sen.synk.data.api.ApiService
 import com.sen.synk.data.model.Album
 import com.sen.synk.data.repository.AlbumRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AlbumViewModel(
+@HiltViewModel
+class AlbumViewModel @Inject constructor (
+    repository: AlbumRepository,
     app: Application
 ): AndroidViewModel(app) {
 
-    val repository by lazy {
-        AlbumRepository(
-            RetrofitInstance.buildRetrofit(context = app.applicationContext).create(ApiService::class.java)
-        )
-    }
+//    private val repository by lazy {
+//        AlbumRepository(
+//            RetrofitInstance.buildRetrofit(context = app.applicationContext).create(ApiService::class.java)
+//        )
+//    }
 
     val albumLiveData: LiveData<PagingData<Album>> =
         repository.getMovies()
