@@ -29,10 +29,12 @@ class UserRecyclerViewAdapter(
         )
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items?.get(position)
 
-        holder.tvUser.text = item?.username
+        holder.tvUser.text = "ID:${item?.id} - ${item?.role} - ${item?.username}"
+        holder.tvEmail.text = item?.email
 
         holder.ivEdit.setOnClickListener {view ->
             item?.let {
@@ -60,9 +62,10 @@ class UserRecyclerViewAdapter(
     }
 
     inner class ViewHolder(binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
-        val ivEdit: ImageView = binding.ivThumbnail
+        val ivEdit: ImageView = binding.ivEdit
         val ivDelete: ImageView = binding.ivDelete
         val tvUser: TextView = binding.tvTitle
+        val tvEmail: TextView = binding.tvEmail
     }
 }
 

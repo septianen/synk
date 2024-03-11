@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.sen.synk.R
@@ -84,6 +85,8 @@ class UserFragment : Fragment(), EditUserClickListener {
                 is Resource.Success -> {
                     it.data?.let { it1 -> userAdapter.submitList(it1) }
 
+                    showMessage("Data terupdate")
+
                     if (bottomSheetFragment.isVisible)
                         bottomSheetFragment.dismiss()
                 }
@@ -100,5 +103,9 @@ class UserFragment : Fragment(), EditUserClickListener {
     private fun logOut() {
         SharedPreferenceManager.clearLoginInfo(requireContext())
         findNavController().navigate(R.id.openLogin)
+    }
+
+    private fun showMessage(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }

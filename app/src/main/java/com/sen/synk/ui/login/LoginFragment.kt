@@ -109,21 +109,25 @@ class LoginFragment : Fragment() {
                             binding.tilPassword.error = it.message
                         }
                         Message.USERNAME_NOT_FOUND -> {
-                            showMessage(it.message)
                             createSnackbar()
                         }
                         Message.USERNAME_ALREADY_EXIST -> {
                             isSignUp = true
-                            updateView()
+                            binding.tilUsername.error = it.message
                         }
                         else -> showMessage(it.message)
                     }
                 }
                 is Resource.Success -> {
+
                     this.account = it.data
-                    showMessage("Welcome")
-                    SharedPreferenceManager.saveLoginInfo(requireContext(), it.data?.username!!)
-                    openHome()
+                    if (isSignUp) {
+                        updateView()
+                    } else {
+                        showMessage("Welcome")
+                        SharedPreferenceManager.saveLoginInfo(requireContext(), it.data?.username!!)
+                        openHome()
+                    }
                 }
                 is Resource.Loading -> {}
             }
@@ -135,13 +139,23 @@ class LoginFragment : Fragment() {
     }
 
     private fun createSnackbar() {
-        Snackbar.make(requireView(), "username tidak ditemukan", Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(), "User tidak ditemukan", Snackbar.LENGTH_LONG)
             .setAction("Registrasi") {
                 updateView()
             }.show()
     }
 
     private fun updateView() {
+
+        resetError()
+
+        binding.etUsername.text = null
+        binding.etPassword.text = null
+        binding.etEmail.text = null
+
+        binding.etUsername.clearFocus()
+        binding.etPassword.clearFocus()
+        binding.etEmail.clearFocus()
 
         if (isSignUp) {
             isSignUp = false

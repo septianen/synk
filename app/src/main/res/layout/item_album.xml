@@ -23,12 +23,29 @@
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginHorizontal="16dp"
         tools:text="Lorem ipsum dolor sit amet"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="@color/onPrimaryContainer"
-        app:layout_constraintBottom_toBottomOf="@+id/ivThumbnail"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivThumbnail"
         app:layout_constraintTop_toTopOf="@+id/ivThumbnail" />
+
+    <TextView
+        android:id="@+id/tvUrl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="@id/tvTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/ivThumbnail"
+        app:layout_constraintStart_toEndOf="@+id/ivThumbnail"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

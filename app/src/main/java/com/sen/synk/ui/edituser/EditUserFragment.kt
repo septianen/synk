@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.sen.synk.R
 import com.sen.synk.data.constant.ARGS
+import com.sen.synk.data.constant.Message
 import com.sen.synk.data.constant.Resource
 import com.sen.synk.data.model.Account
 import com.sen.synk.databinding.FragmentEditUserBinding
@@ -98,12 +99,23 @@ class EditUserFragment : Fragment() {
         viewModel.accountLiveData.observe(viewLifecycleOwner) {
             when(it) {
                 is Resource.Success -> {
-                    showMessage("Berhasil disimpan")
                     openHome()
                 }
 
                 is Resource.Error -> {
-                    showMessage(it.message!!)
+                    when(it.message) {
+                        Message.EMPTY_USERNAME -> binding.tilUsername.error = it.message
+                        Message.EMPTY_PASSWORD -> binding.tilPassword.error = it.message
+                        Message.PASSWORD_LESS_THAN_8 -> binding.tilPassword.error = it.message
+                        Message.INVALID_PASSWORD -> binding.tilPassword.error = it.message
+                        Message.EMPTY_EMAIL -> binding.tilEmail.error = it.message
+                        Message.INVALID_EMAIL -> binding.tilEmail.error = it.message
+                        Message.INVALID_USERNAME_PASSWORD -> {
+                            binding.tilUsername.error = it.message
+                            binding.tilPassword.error = it.message
+                        }
+                        else -> it.message?.let { it1 -> showMessage(it1) }
+                    }
                 }
 
                 is Resource.Loading -> {}

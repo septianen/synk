@@ -34,6 +34,22 @@ class AccountUseCase (
 
     fun signup(account: Account): SignupStatus {
 
+        val isValid = validateAccount(account, true)
+        if (isValid == SignupStatus.SUCCESS)
+            upsertAccount(account)
+
+        return isValid
+    }
+
+    fun updateAccount(account: Account): SignupStatus {
+        val isValid = validateAccount(account, false)
+        if (isValid == SignupStatus.SUCCESS)
+            upsertAccount(account)
+
+        return isValid
+    }
+
+    private fun validateAccount(account: Account, isSignUp: Boolean): SignupStatus {
         val usernameStatus = TextUtils.validateUsername(account.username)
         val emailStatus = TextUtils.validateEmail(account.email)
         val passwordStatus = TextUtils.validatePassword(account.password)
@@ -41,8 +57,10 @@ class AccountUseCase (
         if (usernameStatus == TextStatus.NULL)
             return SignupStatus.NULL_USERNAME
 
-        if (findAccount(username = account.username) != null)
-            return SignupStatus.USER_ALREADY_EXIST
+        if (isSignUp == true) {
+            if (findAccount(username = account.username) != null)
+                return SignupStatus.USER_ALREADY_EXIST
+        }
 
         when(passwordStatus) {
             PasswordStatus.NULL -> return SignupStatus.NULL_PASSWORD
@@ -51,15 +69,18 @@ class AccountUseCase (
             else -> {}
         }
 
-        if (emailStatus == TextStatus.NULL)
-            return SignupStatus.NULL_EMAIL
+
+        when(emailStatus) {
+            TextStatus.NULL -> return SignupStatus.NULL_EMAIL
+            TextStatus.INVALID -> return SignupStatus.INVALID_EMAIL
+            else -> {}
+        }
 
 
-        upsertAccount(account)
         return SignupStatus.SUCCESS
     }
 
-    fun upsertAccount(account: Account) =
+    private fun upsertAccount(account: Account) =
         accountDao.upsertAccount(account)
 
     fun deleteAccount(account: Account) =

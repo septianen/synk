@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/username"
             android:textAllCaps="false"
-            android:inputType="textEmailAddress" />
+            android:inputType="textNoSuggestions" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/email"
-        app:startIconDrawable="@drawable/ic_email"
+        app:startIconDrawable="@drawable/ic_inbox"
         android:visibility="gone"
         app:startIconTint="@color/primary">
 

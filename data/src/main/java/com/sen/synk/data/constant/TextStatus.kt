@@ -2,6 +2,7 @@ package com.sen.synk.data.constant
 
 enum class TextStatus {
     NULL,
+    INVALID,
     SUCCESS
 }
 

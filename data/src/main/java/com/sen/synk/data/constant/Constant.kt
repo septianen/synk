@@ -4,6 +4,7 @@ object Constant {
 
     const val BASE_URL = "https://jsonplaceholder.typicode.com"
     const val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$"
+    const val EMAIL_PATTERN = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
 }
 
 object ARGS {
@@ -21,4 +22,5 @@ object Message {
     const val INVALID_PASSWORD = "password harus terdiri dari huruf besar, kecil, angka, dan simbol"
     const val INVALID_USERNAME_PASSWORD = "username atau password salah"
     const val FALSE_PASSWORD = "password salah"
+    const val NOT_LOGIN = "belum login"
 }

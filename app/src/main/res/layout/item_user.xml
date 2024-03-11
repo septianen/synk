@@ -9,12 +9,12 @@
     android:background="@color/primaryContainer">
 
     <ImageView
-        android:id="@+id/ivThumbnail"
+        android:id="@+id/ivEdit"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_margin="16dp"
         android:src="@drawable/ic_edit"
-        android:contentDescription="@string/thumbnail"
+        android:contentDescription="@string/edit"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/ivDelete"/>
@@ -25,7 +25,7 @@
         android:layout_height="24dp"
         android:layout_margin="16dp"
         android:src="@drawable/ic_delete"
-        android:contentDescription="@string/thumbnail"
+        android:contentDescription="@string/delete"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -34,14 +34,32 @@
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="16dp"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="@color/onPrimaryContainer"
         android:textStyle="bold"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/ivThumbnail"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/ivEdit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        tools:text="Lorem ipsum dolor sit amet" />
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginHorizontal="16dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/primary"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/ivEdit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="Lorem ipsum dolor sit amet" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,8 +20,16 @@ object TextUtils {
 
         return if (email.isNullOrEmpty())
             TextStatus.NULL
+        else if (!isEmailValid(email))
+            TextStatus.INVALID
         else
             TextStatus.SUCCESS
+    }
+
+    private fun isEmailValid(email: String): Boolean {
+        val pattern: Pattern = Pattern.compile(Constant.EMAIL_PATTERN)
+        val matcher: Matcher = pattern.matcher(email)
+        return matcher.matches()
     }
 
     fun validatePassword(password: String?): PasswordStatus {
