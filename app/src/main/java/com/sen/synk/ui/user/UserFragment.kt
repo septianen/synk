@@ -8,16 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.sen.synk.R
 import com.sen.synk.data.model.Account
 import com.sen.synk.databinding.FragmentUserBinding
-import com.sen.synk.ui.edituser.EditUserFragment
-import com.sen.synk.ui.edituser.EditUserFragmentArgs
+import com.sen.synk.pref.SharedPreferenceManager
 import com.sen.synk.viewmodel.user.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlin.math.log
 
 /**
  * A fragment representing a list of Items.
@@ -45,6 +43,10 @@ class UserFragment : Fragment(), EditUserClickListener {
 
         setupView()
         observeLiveData()
+
+        binding.btLogout.setOnClickListener {
+            logOut()
+        }
     }
 
     override fun onEditClick(account: Account) {
@@ -69,5 +71,10 @@ class UserFragment : Fragment(), EditUserClickListener {
 
             it?.let { it1 -> userAdapter.submitList(it1) }
         }
+    }
+
+    private fun logOut() {
+        SharedPreferenceManager.clearLoginInfo(requireContext())
+        findNavController().navigate(R.id.openLogin)
     }
 }

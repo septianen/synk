@@ -36,7 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/editUser"
+                    android:text="@string/edit_user"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/onBackground"/>

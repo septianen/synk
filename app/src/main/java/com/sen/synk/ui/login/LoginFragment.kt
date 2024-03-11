@@ -10,9 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.sen.synk.R
-import com.sen.synk.data.constant.LoginStatus
+import com.sen.synk.data.constant.Message
+import com.sen.synk.data.constant.Resource
 import com.sen.synk.data.model.Account
 import com.sen.synk.databinding.FragmentLoginBinding
+import com.sen.synk.pref.SharedPreferenceManager
 import com.sen.synk.viewmodel.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +27,7 @@ class LoginFragment : Fragment() {
 
     private var username: String? = null
     private var password: String? = null
-    private var passwordConfirmation: String? = null
+    private var email: String? = null
     private var account: Account? = null
 
     private var isSignUp = false
@@ -45,6 +47,7 @@ class LoginFragment : Fragment() {
         observeLiveData()
 
         binding.btnLogin.setOnClickListener {
+            resetError()
             login()
         }
 
@@ -74,14 +77,14 @@ class LoginFragment : Fragment() {
     private fun getData() {
         username = binding.etUsername.text.toString()
         password = binding.etPassword.text.toString()
-        passwordConfirmation = binding.etConfirmPassword.text.toString()
+        email = binding.etEmail.text.toString()
 
         val role = if (binding.swAdmin.isSelected) "Admin" else "User"
 
         account = Account(
             username = username,
             password = password,
-            confirmPassword = passwordConfirmation,
+            email = email,
             role = role
         )
     }
@@ -89,18 +92,38 @@ class LoginFragment : Fragment() {
     private fun observeLiveData() {
         viewModel.loginLiveData.observe(viewLifecycleOwner) {
             when(it) {
-                LoginStatus.NULL -> showMessage("username dan password harus diisi")
-                LoginStatus.FAILED -> showMessage("username atau password salah")
-                LoginStatus.USER_NOT_FOUND -> createSnackbar()
-                else -> {
-                    showMessage("berhasil")
+                is Resource.Error -> {
+
+                    when(it.message) {
+                        Message.EMPTY_USERNAME -> binding.tilUsername.error = it.message
+                        Message.EMPTY_PASSWORD -> binding.tilPassword.error = it.message
+                        Message.PASSWORD_LESS_THAN_8 -> binding.tilPassword.error = it.message
+                        Message.INVALID_PASSWORD -> binding.tilPassword.error = it.message
+                        Message.EMPTY_EMAIL -> binding.tilEmail.error = it.message
+                        Message.INVALID_EMAIL -> binding.tilEmail.error = it.message
+                        Message.USERNAME_NOT_FOUND -> {
+                            showMessage(it.message)
+                            createSnackbar()
+                        }
+                        Message.USERNAME_ALREADY_EXIST -> {
+                            isSignUp = false
+                            updateView()
+                        }
+                        else -> showMessage(it.message)
+                    }
+                }
+                is Resource.Success -> {
+                    this.account = it.data
+                    showMessage("Login Berhasil")
+                    SharedPreferenceManager.saveLoginInfo(requireContext(), it.data?.username!!)
                     openHome()
                 }
+                is Resource.Loading -> {}
             }
         }
     }
 
-    private fun showMessage(message: String) {
+    private fun showMessage(message: String?) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
@@ -117,7 +140,7 @@ class LoginFragment : Fragment() {
             isSignUp = false
 
             binding.swAdmin.visibility = View.GONE
-            binding.tilConfirmPassword.visibility = View.GONE
+            binding.tilEmail.visibility = View.GONE
             binding.btnLogin.text = requireContext().resources.getString(R.string.login)
             binding.tvTitle.text = requireContext().resources.getString(R.string.login)
             binding.btnCreateNewAccount.text = requireContext().resources.getString(R.string.create_new_account)
@@ -125,7 +148,7 @@ class LoginFragment : Fragment() {
             isSignUp = true
 
             binding.swAdmin.visibility = View.VISIBLE
-            binding.tilConfirmPassword.visibility = View.VISIBLE
+            binding.tilEmail.visibility = View.VISIBLE
             binding.btnLogin.text = requireContext().resources.getString(R.string.signup)
             binding.tvTitle.text = requireContext().resources.getString(R.string.signup)
             binding.btnCreateNewAccount.text = requireContext().resources.getString(R.string.already_have_account)
@@ -133,6 +156,15 @@ class LoginFragment : Fragment() {
     }
 
     private fun openHome() {
-        findNavController().navigate(R.id.openAlbum)
+        if (account?.role.equals("Admin"))
+            findNavController().navigate(R.id.openUser)
+        else
+            findNavController().navigate(R.id.openAlbum)
+    }
+
+    private fun resetError() {
+        binding.tilUsername.isErrorEnabled = false
+        binding.tilPassword.isErrorEnabled = false
+        binding.tilEmail.isErrorEnabled = false
     }
 }

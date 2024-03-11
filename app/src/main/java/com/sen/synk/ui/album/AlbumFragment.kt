@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.sen.synk.R
 import com.sen.synk.databinding.FragmentAlbumBinding
+import com.sen.synk.pref.SharedPreferenceManager
 import com.sen.synk.viewmodel.album.AlbumViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -37,6 +40,10 @@ class AlbumFragment : Fragment() {
 
         setupView()
         observeLiveData()
+
+        binding.btLogout.setOnClickListener {
+            logOut()
+        }
     }
 
     private fun setupView() {
@@ -54,10 +61,21 @@ class AlbumFragment : Fragment() {
     private fun observeLiveData() {
 
         lifecycleScope.launch {
+
             viewModel.albumLiveData.observe(viewLifecycleOwner) {
 
                 albumAdapter.submitData(lifecycle, it)
             }
+            viewModel.loadingState.collect { isLoading ->
+                if (!isLoading){
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
         }
+    }
+
+    private fun logOut() {
+        SharedPreferenceManager.clearLoginInfo(requireContext())
+        findNavController().navigate(R.id.openLogin)
     }
 }

@@ -1,6 +1,9 @@
 package com.sen.synk.domain.usecase
 
 import com.sen.synk.data.constant.LoginStatus
+import com.sen.synk.data.constant.PasswordStatus
+import com.sen.synk.data.constant.Resource
+import com.sen.synk.data.constant.SignupStatus
 import com.sen.synk.data.constant.TextStatus
 import com.sen.synk.data.dao.AccountDao
 import com.sen.synk.data.model.Account
@@ -10,13 +13,16 @@ class AccountUseCase (
     private val accounDao: AccountDao
 ) {
 
-    fun login(username: String?, password: String?): LoginStatus? {
+    fun login(username: String?, password: String?): LoginStatus {
 
         val usernameStatus = TextUtils.validateUsername(username)
         val passwordStatus = TextUtils.validatePassword(password)
 
-        if (usernameStatus == TextStatus.NULL || passwordStatus == TextStatus.NULL)
-            return LoginStatus.NULL
+        if (usernameStatus == TextStatus.NULL)
+            return LoginStatus.NULL_USERNAME
+
+        if (passwordStatus == PasswordStatus.NULL)
+            return LoginStatus.NULL_PASSWORD
 
         if (findAccount(username) == null)
             return LoginStatus.USER_NOT_FOUND
@@ -27,24 +33,31 @@ class AccountUseCase (
         return LoginStatus.SUCCESS
     }
 
-    fun signup(account: Account): LoginStatus {
+    fun signup(account: Account): SignupStatus {
 
         val usernameStatus = TextUtils.validateUsername(account.username)
-
+        val emailStatus = TextUtils.validateEmail(account.email)
         val passwordStatus = TextUtils.validatePassword(account.password)
 
         if (usernameStatus == TextStatus.NULL)
-            return LoginStatus.NULL
-
-
-//        if (passwordStatus == TextStatus.PASSWORD_INVALID || passwordStatus == TextStatus.PASSWORD_LESS_THAN_EIGHT)
-//            return LoginStatus.FAILED
+            return SignupStatus.NULL_USERNAME
 
         if (findAccount(username = account.username) != null)
-            return LoginStatus.FAILED
+            return SignupStatus.USER_ALREADY_EXIST
+
+        when(passwordStatus) {
+            PasswordStatus.NULL -> return SignupStatus.NULL_PASSWORD
+            PasswordStatus.PASSWORD_LESS_THAN_EIGHT -> return SignupStatus.PASSWORD_LESS_THAN_8
+            PasswordStatus.PASSWORD_INVALID -> return SignupStatus.INVALID_PASSWORD
+            else -> {}
+        }
+
+        if (emailStatus == TextStatus.NULL)
+            return SignupStatus.NULL_EMAIL
+
 
         upsertAccount(account)
-        return LoginStatus.SUCCESS
+        return SignupStatus.SUCCESS
     }
 
     fun upsertAccount(account: Account) =

@@ -7,11 +7,12 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.sen.synk.data.RetrofitInstance
-import com.sen.synk.data.api.ApiService
 import com.sen.synk.data.model.Album
 import com.sen.synk.data.repository.AlbumRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,16 +21,12 @@ class AlbumViewModel @Inject constructor (
     app: Application
 ): AndroidViewModel(app) {
 
-//    private val repository by lazy {
-//        AlbumRepository(
-//            RetrofitInstance.buildRetrofit(context = app.applicationContext).create(ApiService::class.java)
-//        )
-//    }
+    private val _loadingState = MutableStateFlow(false)
+    val loadingState: StateFlow<Boolean> get() = _loadingState.asStateFlow()
 
     val albumLiveData: LiveData<PagingData<Album>> =
-        repository.getMovies()
-            .cachedIn(viewModelScope)
-            .asLiveData()
+        repository.getMovies(_loadingState)
+            .cachedIn(viewModelScope).asLiveData()
 
 
 }

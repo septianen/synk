@@ -44,12 +44,12 @@ class SynkDbTest {
 
         account = Account(
             id = 200,
-            fullName = "Abdul Jarvis",
+            email = "Abdul Jarvis",
             password = "asdDSA@123",
             username = "jarvis",
-            userType = 2
+            role = "Admin"
         )
-        accountDao.insertAccount(account)
+        accountDao.upsertAccount(account)
         val result = account.username?.let { accountDao.getAccountByUsername(it) }
         assertThat(result, equalTo(account))
     }

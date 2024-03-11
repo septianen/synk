@@ -1,6 +1,7 @@
 package com.sen.synk.domain.utils
 
 import com.sen.synk.data.constant.Constant
+import com.sen.synk.data.constant.PasswordStatus
 import com.sen.synk.data.constant.TextStatus
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -15,16 +16,24 @@ object TextUtils {
             TextStatus.SUCCESS
     }
 
-    fun validatePassword(password: String?): TextStatus {
+    fun validateEmail(email: String?): TextStatus {
 
-        return if (password.isNullOrEmpty())
+        return if (email.isNullOrEmpty())
             TextStatus.NULL
-        else if (password.length < 8)
-            TextStatus.PASSWORD_INVALID
-        else if (!isValidPassword(password))
-            TextStatus.PASSWORD_INVALID
         else
             TextStatus.SUCCESS
+    }
+
+    fun validatePassword(password: String?): PasswordStatus {
+
+        return if (password.isNullOrEmpty())
+            PasswordStatus.NULL
+        else if (password.length < 8)
+            PasswordStatus.PASSWORD_LESS_THAN_EIGHT
+        else if (!isValidPassword(password))
+            PasswordStatus.PASSWORD_INVALID
+        else
+            PasswordStatus.SUCCESS
     }
 
     private fun isValidPassword(password: String): Boolean {

@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.sen.synk.data.constant.LoginStatus
 import com.sen.synk.data.model.Account
 import com.sen.synk.domain.usecase.AccountUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
