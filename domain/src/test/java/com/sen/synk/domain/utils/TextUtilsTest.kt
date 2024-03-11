@@ -1,5 +1,6 @@
 package com.sen.synk.domain.utils
 
+import com.sen.synk.data.constant.PasswordStatus
 import com.sen.synk.data.constant.TextStatus
 import org.junit.Assert.*
 import org.junit.Test
@@ -29,7 +30,7 @@ class TextUtilsTest {
     fun `insert null password`() {
         val result = TextUtils.validatePassword(null)
         assertEquals(
-            TextStatus.NULL,
+            PasswordStatus.NULL,
             result
         )
     }
@@ -39,7 +40,7 @@ class TextUtilsTest {
         val password = "kuyakabaisds"
         val result = TextUtils.validatePassword(password)
         assertEquals(
-            TextStatus.PASSWORD_INVALID,
+            PasswordStatus.PASSWORD_INVALID,
             result
         )
     }
@@ -49,7 +50,7 @@ class TextUtilsTest {
         val password = "1234567891"
         val result = TextUtils.validatePassword(password)
         assertEquals(
-            TextStatus.PASSWORD_INVALID,
+            PasswordStatus.PASSWORD_INVALID,
             result
         )
     }
@@ -59,7 +60,7 @@ class TextUtilsTest {
         val password = "@!#@$%^&*$@#"
         val result = TextUtils.validatePassword(password)
         assertEquals(
-            TextStatus.PASSWORD_INVALID,
+            PasswordStatus.PASSWORD_INVALID,
             result
         )
     }
@@ -69,7 +70,7 @@ class TextUtilsTest {
         val password = "as@312"
         val result = TextUtils.validatePassword(password)
         assertEquals(
-            TextStatus.PASSWORD_INVALID,
+            PasswordStatus.PASSWORD_LESS_THAN_EIGHT,
             result
         )
     }
@@ -79,7 +80,7 @@ class TextUtilsTest {
         val password = "asdDSA@312319"
         val result = TextUtils.validatePassword(password)
         assertEquals(
-            TextStatus.SUCCESS,
+            PasswordStatus.SUCCESS,
             result
         )
     }
