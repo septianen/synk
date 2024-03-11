@@ -10,13 +10,14 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.sen.synk.R
+import com.sen.synk.data.constant.Message
+import com.sen.synk.data.constant.Resource
 import com.sen.synk.data.model.Account
 import com.sen.synk.databinding.FragmentUserBinding
 import com.sen.synk.pref.SharedPreferenceManager
+import com.sen.synk.ui.enterpassword.PasswordBottomSheetFragment
 import com.sen.synk.viewmodel.user.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.log
-
 /**
  * A fragment representing a list of Items.
  */
@@ -24,10 +25,12 @@ import kotlin.math.log
 class UserFragment : Fragment(), EditUserClickListener {
 
     private val viewModel by viewModels<UserViewModel>()
+    private val bottomSheetFragment = PasswordBottomSheetFragment()
 
     private lateinit var binding: FragmentUserBinding
 
     private var userAdapter = UserRecyclerViewAdapter(this)
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,11 +53,20 @@ class UserFragment : Fragment(), EditUserClickListener {
     }
 
     override fun onEditClick(account: Account) {
-        Toast.makeText(requireContext(), account.username, Toast.LENGTH_SHORT).show()
 
         findNavController().navigate(
             UserFragmentDirections.openEditUser(account)
         )
+    }
+
+    override fun onDeleteClick(account: Account) {
+        bottomSheetFragment.setBottomSheetListener(object : PasswordBottomSheetFragment.BottomSheetListener {
+            override fun onTextEntered(text: String) {
+                viewModel.deleteAccount(account, text)
+            }
+        })
+
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
     }
 
     private fun setupView() {
@@ -69,7 +81,20 @@ class UserFragment : Fragment(), EditUserClickListener {
 
         viewModel.userLiveData.observe(viewLifecycleOwner) {
 
-            it?.let { it1 -> userAdapter.submitList(it1) }
+            when(it) {
+                is Resource.Success -> {
+                    it.data?.let { it1 -> userAdapter.submitList(it1) }
+
+                    if (bottomSheetFragment.isVisible)
+                        bottomSheetFragment.dismiss()
+                }
+                is Resource.Error -> {
+                    when(it.message) {
+                        Message.EMPTY_PASSWORD, Message.FALSE_PASSWORD -> bottomSheetFragment.binding.tilPassword.error = it.message
+                    }
+                }
+                is Resource.Loading -> {}
+            }
         }
     }
 

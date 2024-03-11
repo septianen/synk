@@ -74,15 +74,13 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
-
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/swAdmin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:visibility="gone"
-        android:text="Resgister as admin "
+        android:text="@string/register_as_admin"
         android:layout_gravity="end"/>
 
     <Button
@@ -91,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
-        android:text="login"/>
+        android:text="@string/login"/>
 
     <Button
         android:id="@+id/btnCreateNewAccount"
@@ -99,6 +97,6 @@
         android:layout_height="wrap_content"
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_gravity="end"
-        android:text="Create new account"/>
+        android:text="@string/create_new_account"/>
 
 </LinearLayout>

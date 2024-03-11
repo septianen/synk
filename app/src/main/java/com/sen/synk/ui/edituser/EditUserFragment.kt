@@ -81,17 +81,11 @@ class EditUserFragment : Fragment() {
 
         val roles = requireContext().resources.getStringArray(R.array.roles_array)
 
-        // Buat adapter untuk AutoCompleteTextView
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, roles)
 
-        // Set adapter ke AutoCompleteTextView
         binding.etRole.setAdapter(adapter)
-
-        // Atur aksi yang akan diambil saat opsi dipilih
         binding.etRole.setOnItemClickListener { parent, _, position, _ ->
-            val selectedRole = parent.getItemAtPosition(position).toString()
-            // Lakukan sesuatu dengan opsi yang dipilih
-            Toast.makeText(requireContext(), "Selected Role: $selectedRole", Toast.LENGTH_SHORT).show()
+            account?.role = parent.getItemAtPosition(position).toString()
         }
 
         binding.etRole.setOnClickListener {

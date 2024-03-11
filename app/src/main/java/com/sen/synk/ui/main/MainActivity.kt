@@ -2,7 +2,6 @@ package com.sen.synk.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.findNavController
 import com.sen.synk.R
 import dagger.hilt.android.AndroidEntryPoint
 

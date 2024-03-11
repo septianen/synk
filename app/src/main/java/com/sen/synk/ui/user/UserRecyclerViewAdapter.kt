@@ -33,9 +33,18 @@ class UserRecyclerViewAdapter(
         val item = items?.get(position)
 
         holder.tvUser.text = item?.username
+
         holder.ivEdit.setOnClickListener {view ->
             item?.let {
                 listener.onEditClick(
+                    it
+                )
+            }
+        }
+
+        holder.ivDelete.setOnClickListener { view ->
+            item?.let {
+                listener.onDeleteClick(
                     it
                 )
             }
@@ -52,10 +61,13 @@ class UserRecyclerViewAdapter(
 
     inner class ViewHolder(binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
         val ivEdit: ImageView = binding.ivThumbnail
+        val ivDelete: ImageView = binding.ivDelete
         val tvUser: TextView = binding.tvTitle
     }
 }
 
 interface EditUserClickListener{
     fun onEditClick(account: Account)
+
+    fun onDeleteClick(account: Account)
 }

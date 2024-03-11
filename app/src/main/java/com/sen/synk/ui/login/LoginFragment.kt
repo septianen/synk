@@ -79,7 +79,10 @@ class LoginFragment : Fragment() {
         password = binding.etPassword.text.toString()
         email = binding.etEmail.text.toString()
 
-        val role = if (binding.swAdmin.isSelected) "Admin" else "User"
+        val role = if (isSignUp)
+            if (binding.swAdmin.isChecked) "Admin" else "User"
+        else
+            account?.role
 
         account = Account(
             username = username,
@@ -101,12 +104,16 @@ class LoginFragment : Fragment() {
                         Message.INVALID_PASSWORD -> binding.tilPassword.error = it.message
                         Message.EMPTY_EMAIL -> binding.tilEmail.error = it.message
                         Message.INVALID_EMAIL -> binding.tilEmail.error = it.message
+                        Message.INVALID_USERNAME_PASSWORD -> {
+                            binding.tilUsername.error = it.message
+                            binding.tilPassword.error = it.message
+                        }
                         Message.USERNAME_NOT_FOUND -> {
                             showMessage(it.message)
                             createSnackbar()
                         }
                         Message.USERNAME_ALREADY_EXIST -> {
-                            isSignUp = false
+                            isSignUp = true
                             updateView()
                         }
                         else -> showMessage(it.message)
@@ -114,7 +121,7 @@ class LoginFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     this.account = it.data
-                    showMessage("Login Berhasil")
+                    showMessage("Welcome")
                     SharedPreferenceManager.saveLoginInfo(requireContext(), it.data?.username!!)
                     openHome()
                 }

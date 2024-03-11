@@ -2,7 +2,6 @@ package com.sen.synk.domain.usecase
 
 import com.sen.synk.data.constant.LoginStatus
 import com.sen.synk.data.constant.PasswordStatus
-import com.sen.synk.data.constant.Resource
 import com.sen.synk.data.constant.SignupStatus
 import com.sen.synk.data.constant.TextStatus
 import com.sen.synk.data.dao.AccountDao
@@ -10,7 +9,7 @@ import com.sen.synk.data.model.Account
 import com.sen.synk.domain.utils.TextUtils
 
 class AccountUseCase (
-    private val accounDao: AccountDao
+    private val accountDao: AccountDao
 ) {
 
     fun login(username: String?, password: String?): LoginStatus {
@@ -27,7 +26,7 @@ class AccountUseCase (
         if (findAccount(username) == null)
             return LoginStatus.USER_NOT_FOUND
 
-        if (accounDao.login(username, password) == null)
+        if (accountDao.login(username, password) == null)
             return LoginStatus.FAILED
 
         return LoginStatus.SUCCESS
@@ -61,14 +60,25 @@ class AccountUseCase (
     }
 
     fun upsertAccount(account: Account) =
-        accounDao.upsertAccount(account)
+        accountDao.upsertAccount(account)
+
+    fun deleteAccount(account: Account) =
+        accountDao.delete(account)
 
     fun findAccount(username: String?): Account? {
 
-        return username?.let { accounDao.getAccountByUsername(it) }
+        return username?.let { accountDao.getAccountByUsername(it) }
     }
 
-    fun getAccounts(): List<Account>? {
-        return accounDao.getAllAccount()
+    fun getAccounts(username: String?): List<Account>? {
+        return accountDao.getAllAccount(username)
+    }
+
+    fun isPasswordValid(username: String, password: String): Boolean {
+
+        return if(accountDao.getAccount(username, password) == null)
+            false
+        else
+            true
     }
 }

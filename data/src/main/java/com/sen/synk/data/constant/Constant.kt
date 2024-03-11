@@ -20,4 +20,5 @@ object Message {
     const val PASSWORD_LESS_THAN_8 = "password minimal 8 karakter"
     const val INVALID_PASSWORD = "password harus terdiri dari huruf besar, kecil, angka, dan simbol"
     const val INVALID_USERNAME_PASSWORD = "username atau password salah"
+    const val FALSE_PASSWORD = "password salah"
 }
